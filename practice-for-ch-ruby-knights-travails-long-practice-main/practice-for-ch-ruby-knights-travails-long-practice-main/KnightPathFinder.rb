@@ -20,13 +20,37 @@ class KnightPathFinder
         m8 = position[0] - 1 , position[1] + 2
         arr << m1 << m2 << m3 << m4 << m5 << m6 << m7 << m8
         arr.select! {|ele| KnightPathFinder.valid_position?(ele)}
+        arr
     end
 
     def initialize(position)
         @root_node = PolyTreeNode.new(position)
         @considered_positions = [position]
         @position = position
-        #@board = Array.new(8) {Array.new(8)}
+    end
+
+    def new_move_position(position)
+        new_move_position = KnightPathFinder.valid_moves(position)
+        new_move_position.select! {|el| !@considered_positions.include?(el)}
+        @considered_positions += new_move_position
+        return new_move_position
+    end
+
+    def build_move_tree(target)
+        pos = @root_node.value
+        current = @root_node
+        queue = Queue.new
+        loop do 
+          new_move_position(pos).each do |new_pos| 
+            queue.enq(new_pos)
+            new_node = PolyTreeNode.new(new_pos)
+            @root_node.add_child(new_node)
+            new_node.parent = current
+          end
+          break if queue.include?(target)
+          pos = queue.deq
+        end
+
     end
 
     
