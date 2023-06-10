@@ -39,17 +39,21 @@ class KnightPathFinder
     def build_move_tree(target)
         pos = @root_node.value
         current = @root_node
-        queue = Queue.new
+        arr = Array.new
         loop do 
           new_move_position(pos).each do |new_pos| 
-            queue.enq(new_pos)
+            arr.push(new_pos)
             new_node = PolyTreeNode.new(new_pos)
-            @root_node.add_child(new_node)
+            current.add_child(new_node)
             new_node.parent = current
           end
-          break if queue.include?(target)
-          pos = queue.deq
+          break if arr.include?(target)
+          break if arr.empty?
+          pos = arr.shift
+          current = # FIGURE OUT HOW TO CHANGE CURRENT!
         end
+
+        @root_node
 
     end
 
