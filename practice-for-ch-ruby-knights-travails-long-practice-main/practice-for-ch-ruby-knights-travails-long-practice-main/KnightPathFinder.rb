@@ -52,5 +52,14 @@ class KnightPathFinder
         nil
     end
 
+    def find_path(target)
+        @root_node.bfs(target)
+    end
+
+    def trace_path_back(target)
+        return [target.value] if target.parent == nil
+        res = find_path(target.parent)
+        (trace_path_back(target.parent) << res.value) unless res
+    end
     
 end
