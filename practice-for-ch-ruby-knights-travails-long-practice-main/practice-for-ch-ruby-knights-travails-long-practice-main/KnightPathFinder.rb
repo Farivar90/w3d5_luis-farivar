@@ -2,7 +2,7 @@ require_relative 'tree_node.rb'
 
 class KnightPathFinder
 
-    attr_accessor :position
+    attr_accessor :position , :considered_positions
     
     def self.valid_position?(position)
         (position.all? {|ele| ele >= 0 && ele <= 7})
@@ -27,6 +27,7 @@ class KnightPathFinder
         @root_node = PolyTreeNode.new(position)
         @considered_positions = [position]
         @position = position
+        build_move_tree
     end
 
     def new_move_position(position)
@@ -36,25 +37,19 @@ class KnightPathFinder
         return new_move_position
     end
 
-    def build_move_tree(target)
-        pos = @root_node.value
+    def build_move_tree
         current = @root_node
         arr = Array.new
         loop do 
-          new_move_position(pos).each do |new_pos| 
-            arr.push(new_pos)
+          new_move_position(current.value).each do |new_pos| 
             new_node = PolyTreeNode.new(new_pos)
+            arr.push(new_node)
             current.add_child(new_node)
-            new_node.parent = current
           end
-          break if arr.include?(target)
           break if arr.empty?
-          pos = arr.shift
-          current = # FIGURE OUT HOW TO CHANGE CURRENT!
+          current = arr.shift
         end
-
-        @root_node
-
+        nil
     end
 
     
