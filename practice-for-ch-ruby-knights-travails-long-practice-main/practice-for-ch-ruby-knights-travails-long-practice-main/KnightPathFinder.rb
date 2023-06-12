@@ -57,9 +57,14 @@ class KnightPathFinder
     end
 
     def trace_path_back(target)
-        return [target.value] if target.parent == nil
-        res = find_path(target.parent)
-        (trace_path_back(target.parent) << res.value) unless res
+        trace_path_back_arr =[]
+        loop do
+            res = find_path(target.value)
+            trace_path_back_arr << res.value
+            break unless res.parent
+            target = target.parent
+        end
+        trace_path_back_arr
     end
     
 end
