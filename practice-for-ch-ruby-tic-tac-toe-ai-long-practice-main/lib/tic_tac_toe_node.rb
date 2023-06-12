@@ -9,6 +9,9 @@ class TicTacToeNode
   end
 
   def losing_node?(evaluator)
+    children_arr = self.children
+    children_arr.any? {losing_node?(evaluator)}
+    return false
   end
 
   def winning_node?(evaluator)
@@ -33,5 +36,6 @@ class TicTacToeNode
     end
     children_arr
   end
+
 end
 
